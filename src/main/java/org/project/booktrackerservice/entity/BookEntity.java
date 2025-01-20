@@ -30,4 +30,5 @@ public class BookEntity {
 
     private Date returnDate;
 
+    private boolean isDeleted = false;
 }

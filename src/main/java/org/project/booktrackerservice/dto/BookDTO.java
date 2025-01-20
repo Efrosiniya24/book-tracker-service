@@ -19,4 +19,6 @@ public class BookDTO {
     private StatusEnum status;
     private Date borrowDate;
     private Date returnDate;
+    private boolean isDeleted = true;
+
 }
