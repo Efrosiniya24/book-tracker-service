@@ -23,6 +23,7 @@ public class BookEntity {
 
     private Long bookId;
 
+    @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
     private Date borrowDate;
