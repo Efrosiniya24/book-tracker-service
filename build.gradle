@@ -41,11 +41,15 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:3.12.4'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.2.0'
+
 
     implementation 'com.thoughtworks.xstream:xstream:1.4.21'
 
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.6'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
 }
 
 dependencyManagement {
