@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.project.booktrackerservice.Enum.StatusEnum;
 
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public class BookEntity {
 
     private Long bookId;
 
-    private String status;
+    private StatusEnum status;
 
     private Date borrowDate;
 
