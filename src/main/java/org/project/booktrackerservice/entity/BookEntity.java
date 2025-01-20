@@ -30,5 +30,6 @@ public class BookEntity {
 
     private Date returnDate;
 
+    @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 }
