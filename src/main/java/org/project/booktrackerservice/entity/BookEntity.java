@@ -10,7 +10,7 @@ import org.project.booktrackerservice.Enum.StatusEnum;
 import java.util.Date;
 
 @Entity
-@Table(name = "book")
+@Table(name = "book_tracker")
 @Getter
 @Setter
 @AllArgsConstructor
