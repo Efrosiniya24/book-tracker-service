@@ -1,9 +1,12 @@
 package org.project.booktrackerservice.controllers;
 
 import lombok.AllArgsConstructor;
+import org.project.booktrackerservice.dto.BookDTO;
 import org.project.booktrackerservice.service.BookTrackerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -23,4 +26,9 @@ public class BookTrackerController {
         return ResponseEntity.ok("Book with id = " + id + " deleted");
     }
 
+    @GetMapping("/free-books")
+    public ResponseEntity<List<BookDTO>> getFreeBooks(){
+        List<BookDTO> freeBooks = bookTrackerService.getFreeBooks();
+        return ResponseEntity.ok(freeBooks);
+    }
 }
