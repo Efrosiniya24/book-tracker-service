@@ -1,6 +1,7 @@
 package org.project.booktrackerservice.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.project.booktrackerservice.Enum.StatusEnum;
 import org.project.booktrackerservice.dto.BookDTO;
@@ -88,6 +89,25 @@ class BookTrackerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(bookJson))
                 .andExpect(status().isOk());
+
+        verify(bookTrackerService, times(1)).updateStatus(1L, String.valueOf(StatusEnum.TAKEN));
+    }
+
+    @Test
+    void bookNotFoundUpdateStatus() throws Exception {
+        //given
+        BookDTO bookDTO = new BookDTO(1L, 1L, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false);
+        String bookJson = objectMapper.writeValueAsString(bookDTO);
+
+        //when
+        when(bookTrackerService.updateStatus(1L, String.valueOf(StatusEnum.TAKEN))).thenThrow(EntityNotFoundException.class);
+
+        //then
+        mockMvc.perform(patch("/books/book-tracker/update-status/{id}", 1L)
+                        .param("status", String.valueOf(StatusEnum.TAKEN))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookJson))
+                .andExpect(status().isNotFound());
 
         verify(bookTrackerService, times(1)).updateStatus(1L, String.valueOf(StatusEnum.TAKEN));
     }
