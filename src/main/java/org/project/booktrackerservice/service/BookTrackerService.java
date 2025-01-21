@@ -9,6 +9,7 @@ import org.project.booktrackerservice.mapper.BookMapper;
 import org.project.booktrackerservice.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,6 +44,13 @@ public class BookTrackerService {
                 .orElseThrow(() -> new EntityNotFoundException("Book with id = " + id + " not found"));
 
         book.setStatus(StatusEnum.valueOf(status));
+
+        if (book.getStatus() == StatusEnum.TAKEN) {
+            book.setBorrowDate(LocalDateTime.now());
+        } else {
+            book.setBorrowDate(null);
+        }
+
         bookRepository.save(book);
 
         return bookMapper.toBookDTO(book);
