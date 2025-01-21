@@ -60,16 +60,35 @@ class BookTrackerControllerTest {
                 new BookDTO(1L, 1L, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false),
                 new BookDTO(2L, 2L, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false)
         );
-
+        String booksJson = objectMapper.writeValueAsString(books);
         //when
         when(bookTrackerService.getFreeBooks()).thenReturn(books);
 
         //then
         mockMvc.perform(get("/books/book-tracker/free-books")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(books.toString()))
+                        .content(booksJson))
                 .andExpect(status().isOk());
 
         verify(bookTrackerService, times(1)).getFreeBooks();
+    }
+
+    @Test
+    void updateBookStatus() throws Exception {
+        //given
+        BookDTO bookDTO = new BookDTO(1L, 1L, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false);
+        String bookJson = objectMapper.writeValueAsString(bookDTO);
+
+        //when
+        when(bookTrackerService.updateStatus(1L, String.valueOf(StatusEnum.TAKEN))).thenReturn(bookDTO);
+
+        //then
+        mockMvc.perform(patch("/books/book-tracker/update-status/{id}", 1L)
+                        .param("status", String.valueOf(StatusEnum.TAKEN))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookJson))
+                .andExpect(status().isOk());
+
+        verify(bookTrackerService, times(1)).updateStatus(1L, String.valueOf(StatusEnum.TAKEN));
     }
 }
