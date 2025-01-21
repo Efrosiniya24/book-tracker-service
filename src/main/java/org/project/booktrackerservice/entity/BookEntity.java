@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.project.booktrackerservice.Enum.StatusEnum;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "book_tracker")
@@ -26,9 +26,9 @@ public class BookEntity {
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
-    private Date borrowDate;
+    private LocalDateTime borrowDate;
 
-    private Date returnDate;
+    private LocalDateTime returnDate;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;

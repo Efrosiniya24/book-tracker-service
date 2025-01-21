@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.project.booktrackerservice.Enum.StatusEnum;
 
-import java.util.Date;
-
+import java.time.LocalDateTime;
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,8 +16,8 @@ public class BookDTO {
     private Long id;
     private Long bookId;
     private StatusEnum status;
-    private Date borrowDate;
-    private Date returnDate;
+    private LocalDateTime borrowDate;
+    private LocalDateTime returnDate;
     private boolean isDeleted = false;
 
 }
