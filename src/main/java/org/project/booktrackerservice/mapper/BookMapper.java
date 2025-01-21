@@ -9,5 +9,5 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface BookMapper {
     List<BookDTO> toBookDTOList(List<BookEntity> bookEntities);
-
+    BookDTO toBookDTO(BookEntity bookEntity);
 }
