@@ -9,6 +9,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,9 +30,20 @@ class BookTrackerControllerTest {
         //given
         //when
         //then
-        mockMvc.perform(post("/books/book-tracker//create-book/{id}", 1L))
+        mockMvc.perform(post("/books/book-tracker/create-book/{id}", 1L))
                 .andExpect(status().isOk());
 
         verify(bookTrackerService, times(1)).createBook(1L);
+    }
+
+    @Test
+    void deleteBook() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(delete("/books/book-tracker/delete-book/{id}", 1L))
+                .andExpect(status().isOk());
+
+        verify(bookTrackerService, times(1)).softDeleteBook(1L);
     }
 }
