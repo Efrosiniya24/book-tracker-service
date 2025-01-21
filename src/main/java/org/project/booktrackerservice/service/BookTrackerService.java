@@ -37,4 +37,14 @@ public class BookTrackerService {
         List<BookEntity> freeBooks = bookRepository.findAllByIsDeletedFalse();
         return bookMapper.toBookDTOList(freeBooks);
     }
+
+    public BookDTO updateStatus(Long id, String status) {
+        BookEntity book = bookRepository.findByBookId(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book with id = " + id + " not found"));
+
+        book.setStatus(StatusEnum.valueOf(status));
+        bookRepository.save(book);
+
+        return bookMapper.toBookDTO(book);
+    }
 }
