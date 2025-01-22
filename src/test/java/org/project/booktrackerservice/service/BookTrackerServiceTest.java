@@ -12,6 +12,7 @@ import org.project.booktrackerservice.mapper.BookMapper;
 import org.project.booktrackerservice.repository.BookRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -47,4 +48,16 @@ class BookTrackerServiceTest {
         verify(bookMapper, times(1)).toBookDTO(bookEntity);
     }
 
+    @Test
+    void softDeleteBookTest() {
+        //given
+        Long bookId = 1L;
+        BookEntity bookEntity = new BookEntity(bookId, bookId, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false);
+
+        //when
+        when(bookRepository.findByBookId(bookId)).thenReturn(Optional.of(bookEntity));
+        bookTrackerService.softDeleteBook(bookId);
+
+        //then
+    }
 }
