@@ -13,6 +13,8 @@ import org.project.booktrackerservice.mapper.BookMapper;
 import org.project.booktrackerservice.repository.BookRepository;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -73,5 +75,26 @@ class BookTrackerServiceTest {
 
         //then
         assertThrows(EntityNotFoundException.class, () -> bookTrackerService.softDeleteBook(bookId));
+    }
+
+    @Test
+    void getFreeBooksTest() {
+        //given
+        List<BookEntity> bookEntityList = Arrays.asList(
+                new BookEntity(1L, 1L, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false),
+                new BookEntity(2L, 2L, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false)
+        );
+
+        List<BookDTO> bookDTOList = Arrays.asList(
+                new BookDTO(1L, 1L, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false),
+                new BookDTO(2L, 2L, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false)
+        );
+
+        //when
+        when(bookRepository.findAllByStatusFree()).thenReturn(bookEntityList);
+        when(bookMapper.toBookDTOList(bookEntityList)).thenReturn(bookDTOList);
+
+        //then
+        assertEquals(bookDTOList, bookTrackerService.getFreeBooks());
     }
 }
