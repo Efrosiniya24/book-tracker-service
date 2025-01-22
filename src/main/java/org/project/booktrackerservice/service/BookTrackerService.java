@@ -19,12 +19,13 @@ public class BookTrackerService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    public void createBook(Long id) {
+    public BookDTO createBook(Long id) {
         BookEntity bookEntity = new BookEntity();
         bookEntity.setBookId(id);
         bookEntity.setStatus(StatusEnum.FREE);
 
-        bookRepository.save(bookEntity);
+        BookEntity book = bookRepository.save(bookEntity);
+        return bookMapper.toBookDTO(book);
     }
 
     public void softDeleteBook(Long id) {

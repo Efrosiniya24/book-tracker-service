@@ -17,9 +17,9 @@ public class BookTrackerController {
     private final BookTrackerService bookTrackerService;
 
     @PostMapping("/create-book/{id}")
-    public ResponseEntity<String> createBook(@PathVariable Long id) {
-        bookTrackerService.createBook(id);
-        return ResponseEntity.ok("Book with id = " + id + " created");
+    public ResponseEntity<BookDTO> createBook(@PathVariable Long id) {
+        BookDTO bookDTO = bookTrackerService.createBook(id);
+        return ResponseEntity.ok(bookDTO);
     }
 
     @DeleteMapping("/delete-book/{id}")
