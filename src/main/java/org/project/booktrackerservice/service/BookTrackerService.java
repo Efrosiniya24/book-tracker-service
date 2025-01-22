@@ -36,7 +36,7 @@ public class BookTrackerService {
     }
 
     public List<BookDTO> getFreeBooks() {
-        List<BookEntity> freeBooks = bookRepository.findAllByIsDeletedFalse();
+        List<BookEntity> freeBooks = bookRepository.findAllByStatusFree();
         return bookMapper.toBookDTOList(freeBooks);
     }
 
