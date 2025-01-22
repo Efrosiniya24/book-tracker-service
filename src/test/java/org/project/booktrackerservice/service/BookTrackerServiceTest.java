@@ -1,5 +1,6 @@
 package org.project.booktrackerservice.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,5 +61,17 @@ class BookTrackerServiceTest {
         bookTrackerService.softDeleteBook(bookId);
 
         //then
+    }
+
+    @Test
+    void deleteBookNotFoundTest() {
+        //given
+        Long bookId = 1L;
+
+        //when
+        when(bookRepository.findByBookId(bookId)).thenReturn(Optional.empty());
+
+        //then
+        assertThrows(EntityNotFoundException.class, () -> bookTrackerService.softDeleteBook(bookId));
     }
 }
