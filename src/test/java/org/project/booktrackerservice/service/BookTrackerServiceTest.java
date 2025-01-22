@@ -17,8 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -96,5 +95,26 @@ class BookTrackerServiceTest {
 
         //then
         assertEquals(bookDTOList, bookTrackerService.getFreeBooks());
+    }
+
+    @Test
+    void updateStatusTest() {
+        //given
+        Long bookId = 1L;
+        BookEntity bookEntity = new BookEntity(bookId, bookId, StatusEnum.FREE, LocalDateTime.now(), LocalDateTime.now(), false);
+
+        BookDTO expectedBookDTO = new BookDTO(bookId, bookId, StatusEnum.TAKEN, LocalDateTime.now(), LocalDateTime.now(), false);
+
+        // when
+        when(bookRepository.findByBookId(bookId)).thenReturn(Optional.of(bookEntity));
+        when(bookRepository.save(any(BookEntity.class))).thenReturn(bookEntity);
+        when(bookMapper.toBookDTO(bookEntity)).thenReturn(expectedBookDTO);
+
+        // then
+        BookDTO actualBookDTO = bookTrackerService.updateStatus(bookId, String.valueOf(StatusEnum.TAKEN));
+
+        assertEquals(expectedBookDTO.getBookId(), actualBookDTO.getBookId());
+        assertEquals(StatusEnum.TAKEN, actualBookDTO.getStatus());
+        verify(bookRepository, times(1)).save(bookEntity);
     }
 }
