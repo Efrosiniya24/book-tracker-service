@@ -90,7 +90,7 @@ class BookTrackerServiceTest {
         );
 
         //when
-        when(bookRepository.findAllByStatusFree()).thenReturn(bookEntityList);
+        when(bookRepository.findAllByStatus(StatusEnum.FREE)).thenReturn(bookEntityList);
         when(bookMapper.toBookDTOList(bookEntityList)).thenReturn(bookDTOList);
 
         //then
