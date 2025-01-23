@@ -117,4 +117,17 @@ class BookTrackerServiceTest {
         assertEquals(StatusEnum.TAKEN, actualBookDTO.getStatus());
         verify(bookRepository, times(1)).save(bookEntity);
     }
+
+    @Test
+    void updateStatusTestException() {
+        //given
+        Long bookId = 1L;
+
+        // when
+        when(bookRepository.findByBookId(bookId)).thenThrow(EntityNotFoundException.class);
+
+        // then
+        assertThrows(EntityNotFoundException.class, () -> bookTrackerService.updateStatus(bookId, String.valueOf(StatusEnum.TAKEN)));
+
+    }
 }
