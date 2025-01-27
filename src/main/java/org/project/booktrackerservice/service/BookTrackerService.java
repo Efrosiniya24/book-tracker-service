@@ -51,6 +51,7 @@ public class BookTrackerService {
             book.setReturnDate(LocalDateTime.now().plusDays(30));
         } else {
             book.setBorrowDate(null);
+            book.setReturnDate(null);
         }
 
         bookRepository.save(book);
