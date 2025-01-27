@@ -1,19 +1,13 @@
-FROM ubuntu:latest
-LABEL authors="Frosya"
+FROM gradle:8.12-jdk17-corretto AS build
+
+COPY build.gradle settings.gradle gradlew /app/
+COPY gradle /app/gradle/
+COPY src /app/src/
 
 FROM openjdk:17-jdk-slim
-FROM gradle:8.12-jdk21 AS BUILD
-EXPOSE 8081
 
-WORKDIR /app/
-
-COPY build.gradle settings.gradle gradlew /app/gradle/project/
-COPY gradle /app/gradle/project/gradle/
-COPY src /home/gradle/project/src/
-
-COPY --from=BUILD build/libs/book-tracker-service-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=build /app/build/libs/book-tracker-service-0.0.1-SNAPSHOT.jar /app/app.jar
 
 RUN ls -la /app/ && java -version
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
-

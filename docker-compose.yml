@@ -1,72 +1,18 @@
 services:
-  eureka-service:
+  app:
     build:
-      context: ../Eureka-service-books
+      context: .
+    container_name: book-tracker-service
     ports:
-      - "8761:8761"
-    networks:
-      - books-network
-
-  book-storage-service:
-    build:
-      context: ../book-storage-service
-    ports:
-      - "8082:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://book-storage-db:5432/books
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=1111
-      - EUREKA_SERVER_URL=http://eureka-service:8761/eureka/
-    networks:
-      - books-network
+      - "8081:8081"
     depends_on:
-      - eureka-service
-      - auth-service
-
-  book-tracker-service:
-    build:
-      context: ../book-tracker-service
-    ports:
-      - "8081:8080"
+      - db-books
+    restart: always
+  db-books:
+    image: postgres:15
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://book-storage-db:5432/book_tracker
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=1111
-      - EUREKA_SERVER_URL=http://eureka-service:8761/eureka/
-    networks:
-      - books-network
-    depends_on:
-      - eureka-service
-      - auth-service
-
-  auth-service:
-    build:
-      context: ../auth-service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: BOOK-TRACKER
     ports:
-      - "8083:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://book-storage-db:5432/users_book
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=1111
-      - EUREKA_SERVER_URL=http://eureka-service:8761/eureka/
-    networks:
-      - books-network
-    depends_on:
-      - eureka-service
-
-  api-gateway:
-    build:
-      context: ../api-gateway-books
-    ports:
-      - "8080:8080"
-    environment:
-      - EUREKA_SERVER_URL=http://eureka-service:8761/eureka/
-    networks:
-      - books-network
-    depends_on:
-      - eureka-service
-
-networks:
-  books-network:
-    driver: bridge
-
+      - "5433:5432"
