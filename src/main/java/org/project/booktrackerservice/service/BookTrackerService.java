@@ -48,6 +48,7 @@ public class BookTrackerService {
 
         if (book.getStatus() == StatusEnum.TAKEN) {
             book.setBorrowDate(LocalDateTime.now());
+            book.setReturnDate(LocalDateTime.now().plusDays(30));
         } else {
             book.setBorrowDate(null);
         }
