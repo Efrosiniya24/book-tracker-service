@@ -1,5 +1,6 @@
+Инструкция по запуску
 1. Скачать или склонировать репозиторий Eureka service по ссылке:
-   https://github.com/Efrosiniya24/Eureka-service-books
+    https://github.com/Efrosiniya24/Eureka-service-books
 2. Выполнить команду
    docker-compose up --build
 3. Скачать или склонировать репозиторий api gateway по ссылке:
